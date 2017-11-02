@@ -1,0 +1,24 @@
+<style disabled>
+    .tab-pane {
+        padding:    1em  0;
+    }
+</style>
+<script src="Tab.js"></script>
+<div>
+    <ul class="nav nav-tabs nav-justified" role="tablist" data-name="__head__">
+        <li role="presentation" class="${ scope.tabState('active') }">
+            <a href="#${view.id}" role="tab" data-toggle="tab"
+               aria-controls="${view.id}" title="${view.title}">
+                ${view.name}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" is="ListView" data-name="__body__">
+        <div class="tab-pane fade ${scope.tabState('active in')}"
+             role="tabpanel" id="${view.id}"
+             data-href="${view.href}">
+            ${view.content}
+        </div>
+    </div>
+</div>
+<slot name="content"></slot>

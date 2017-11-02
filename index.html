@@ -1,0 +1,85 @@
+<!DocType HTML>
+<html lang="zh-CN" data-href="?data=page/index.json"><head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+
+    <title>${view.title}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+    <link rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.bootcss.com/layer/3.0.3/skin/default/layer.min.css" />
+    <link rel="stylesheet" href="page/index.css" />
+<!--[if lte IE 9]>
+    <script src="//cdn.bootcss.com/html5-history-api/4.2.8/history.min.js"></script>
+<![endif]-->
+    <script src="//cdn.bootcss.com/MutationObserver.js/0.3.2/mutationobserver.min.js"></script>
+    <script src="//cdn.bootcss.com/require.js/2.3.5/require.min.js"></script>
+    <script>
+        require.config({
+            baseUrl:    'library/',
+            paths:      {
+                jquery:
+                    'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
+                BootStrap:
+                    'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min',
+                marked:
+                    'https://cdn.bootcss.com/marked/0.3.6/marked.min',
+                Layer:
+                    'https://cdn.bootcss.com/layer/3.0.3/layer.min'
+            },
+            shim:       {
+                BootStrap:    ['jquery']
+            }
+        });
+    </script>
+    <script src="page/index.js"></script>
+</head><body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+        <div class="container">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#Main_Nav" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" target="_top" href="" title="返回首页">
+                    <!--${view.title}-->
+                </a>
+            </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="Main_Nav">
+
+                <ul class="nav navbar-nav" data-name="channel">
+
+                    <li role="${view.URL ? '' : 'separator'}"
+                        class="${view.URL ? '' : 'divider'}">
+
+                        <a target="${view.target}" href="${view.URL}"
+                           data-autofocus="${! view.__index__}"
+                           title="${view.name}">
+                            <!--${view.title}-->
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<!--  SPA Page Container  -->
+    <div id="PageBox"></div>
+
+<!--  Common Footer -->
+    <footer>
+        Powered by BootEWA
+    </footer>
+
+<!--  AJAX loading  -->
+    <div data-href="component/Loading.html"></div>
+</body></html>

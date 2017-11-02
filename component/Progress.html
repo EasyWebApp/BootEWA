@@ -1,0 +1,38 @@
+<script>
+require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+
+    EWA.component(function (data) {
+
+        data.percent = function () {
+
+            var data = this.valueOf();
+
+            data.done = + data.done,  data.toDo = + data.toDo;
+
+            return (
+                data.done / (data.toDo + data.done)
+            ).toFixed(4) * 100;
+        };
+
+        data.barState = function () {
+
+            var expired = new Date( data.expired ),  state = 'progress-bar-striped ';
+
+            if (Date.now() > expired)
+                return  state + 'progress-bar-danger';
+
+            return  (this.percent() < 100)  ?
+                (state + 'active')  :
+                'progress-bar-success';
+        };
+    });
+});
+</script>
+<div class="progress">
+    <div class="progress-bar ${view.barState()}"
+         role="progressbar" aria-valuemin="0" aria-valuemax="100"
+         aria-valuenow="${view.percent()}"
+         style="width: ${view.percent()}%">
+        ${view.percent()}%
+    </div>
+</div>

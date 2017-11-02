@@ -1,0 +1,33 @@
+{
+    "title":      "BootEWA",
+    "channel":    [
+        {
+            "title":    "快速上手",
+            "URL":      "page/intro.html"
+        },
+        {
+            "title":    "小试牛刀",
+            "URL":      "page/try.html"
+        },
+        {
+            "title":     "最新版下载",
+            "target":    "_blank",
+            "URL":       "https://github.com/TechQuery/BootEWA/archive/master.zip"
+        },
+        {
+            "title":     "开源代码",
+            "target":    "_blank",
+            "URL":       "https://github.com/TechQuery/BootEWA/"
+        },
+        {
+            "title":     "引擎官网",
+            "target":    "_blank",
+            "URL":       "https://tech_query.oschina.io/easywebapp/"
+        },
+        {
+            "title":     "作者官网",
+            "target":    "_blank",
+            "URL":       "https://tech-query.me/"
+        }
+    ]
+}

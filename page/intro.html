@@ -1,0 +1,72 @@
+<style disabled>
+    .container > section > h2 {
+        margin:    4rem  auto;
+    }
+    #Advantage .glyphicon {
+        font-size:    5em;
+    }
+    #Advantage p {
+        font-size:    1.2em;
+    }
+    #Component > * {
+        margin-bottom:    1em;
+    }
+    #Component .glyphicon {
+        font-size:    3em;
+    }
+</style>
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1>BootEWA</h1>
+        <p>
+            基于
+            <a target="_blank" href="https://tech_query.oschina.io/easywebapp/">
+                EasyWebApp
+            </a>
+            v4+ 引擎的
+            <a target="_blank" href="http://v3.bootcss.com/">BootStrap</a>
+            Web 组件库
+        </p>
+    </div>
+</div>
+<div class="container text-center">
+    <section>
+        <h2>特性优势</h2>
+        <div class="row" id="Advantage">
+            <div class="col-md-4">
+                <i class="glyphicon glyphicon-road text-primary"></i>
+                <h3>迁移平滑</h3>
+                <p>
+                    兼容已有的 jQuery、BootStrap 架构，代码修改集中在
+                    <strong>精简、拆分、规范</strong>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <i class="glyphicon glyphicon-user"></i>
+                <h3>学习容易</h3>
+                <p>
+                    EasyWebApp 引擎本身没有发明
+                    <strong>HTML 5、CSS 3、JavaScript</strong>
+                    (ES 5+) 之外的新语法
+                </p>
+            </div>
+            <div class="col-md-4">
+                <i class="glyphicon glyphicon-leaf text-success"></i>
+                <h3>使用简单</h3>
+                <p>
+                    依赖库、组件均
+                    <strong>异步加载</strong>，无需任何编译、打包、构建工具链
+                </p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2>组件一览</h2>
+        <div id="Component" is="ListView" data-href="?data=component/index.json">
+            <div class="col-md-3">
+                <i class="glyphicon glyphicon-${view.icon}"></i>
+                <h4><!--${view.title}--></h4>
+            </div>
+        </div>
+    </section>
+</div>

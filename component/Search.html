@@ -1,0 +1,78 @@
+<style disabled>
+    .Box {
+        position:    relative;
+    }
+    .Box > ul {
+        position:      absolute;
+        left:          0;
+        top:           100%;
+        right:         0;
+        z-index:       1;
+        margin:        0;
+        padding:       0;
+        list-style:    none;
+        border:        1px  solid  rgb(204, 204, 204);
+        background:    white;
+        display:       none;
+    }
+    .Box > ul > li {
+        padding:    6px  12px;
+        cursor:     pointer;
+    }
+    .Box > ul > li:hover {
+        background:    rgb(230, 230, 230);
+    }
+</style>
+
+<script>
+    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+
+        var iWebApp = new EWA();
+
+        EWA.component(function (data) {
+
+            data.getURL = function () {
+
+                var data = this.valueOf();
+
+                return  data.api + data[ data.key ];
+            };
+
+            var $_Tips = this.$_View.find('.Box > ul'), VM = this;
+
+            data.search = function (event) {
+
+                var input = event.target;
+
+                this.render(input.name, input.value);
+
+                iWebApp.load( $_Tips.show() );
+
+                event.stopPropagation();
+            };
+
+            data.select = function (event) {
+
+                $_Tips.hide().prevAll('[type="search"]')[0].value =
+                    event.target.textContent.trim().split("\n")[0].trim();
+
+                VM.emit('check', this.valueOf());
+            };
+        });
+    });
+</script>
+
+<div class="Box">
+    <input type="search" class="form-control"
+           name="${view.key}" value="${scope[ view.key ]}"
+           autocomplete="off" placeholder="在校生填当前学校"
+           onchange="${view.search}" />
+
+    <ul data-href="?data=${view.getURL()}">
+
+        <li onclick="${scope.select}">
+
+            <slot name="item"></slot>
+        </li>
+    </ul>
+</div>

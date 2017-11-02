@@ -1,0 +1,46 @@
+<script src="Admin_District.js"></script>
+
+<div class="form-inline">
+
+    <select class="form-control"
+            name="province"
+            data-href="?data=config/district?keywords=100000"
+            onrequest="${view.setParam}"
+            ondata="${view.fixData}"
+            onready="${view.checkCode}"
+            onchange="${view.loadSub}">
+
+        <option value="${view.adcode ? view.name : ''}">
+            ${view.name}
+        </option>
+    </select>
+
+    <select class="form-control"
+            name="city"
+            data-href="?data=config/district?keywords=${view.province}"
+            onrequest="${view.setParam}"
+            ondata="${view.fixData}"
+            onready="${view.checkCode}"
+            onchange="${view.loadSub}"
+            style="display: ${view.province && 'inline-block'}">
+
+        <option value="${view.adcode ? view.name : ''}">
+            ${view.name}
+        </option>
+    </select>
+
+    <select class="form-control"
+            name="district"
+            data-href="?data=config/district?keywords=${view.city}"
+            onrequest="${view.setParam}"
+            ondata="${view.fixData}"
+            onready="${view.checkCode}"
+            onchange="${view.loadSub}"
+            style="display: ${view.city && 'inline-block'}">
+
+        <option value="${view.adcode ? view.name : ''}">
+            ${view.name}
+        </option>
+    </select>
+</div>
+<input type="hidden" name="adcode" value="${view.adcode}" />

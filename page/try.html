@@ -1,0 +1,26 @@
+<style disabled>
+    iframe {
+        width:         100%;
+        min-height:    36em;
+    }
+</style>
+<script>
+    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+
+        EWA.component(function () {
+
+            this.$_View.find('.jsbin-embed').replaceWith(function () {
+
+                return  $('<iframe />', {
+                    frameBorder:        0,
+                    allowTranspancy:    true,
+                    src:                this.href
+                })[0];
+            });
+        });
+    });
+</script>
+
+<a class="jsbin-embed" href="http://jsbin.com/katemofega/embed?html,css,output">
+    JS Bin on jsbin.com
+</a>

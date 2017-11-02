@@ -1,0 +1,42 @@
+[
+    {
+        "name":     "Loading",
+        "title":    "AJAX 加载遮罩",
+        "icon":     "time"
+    },
+    {
+        "name":     "Progress",
+        "title":    "进度条",
+        "icon":     "tasks"
+    },
+    {
+        "name":     "Search",
+        "title":    "建议输入框",
+        "icon":     "search"
+    },
+    {
+        "name":     "Admin_District",
+        "title":    "行政区划联动选择框",
+        "icon":     "list"
+    },
+    {
+        "name":     "Data_Table",
+        "title":    "数据表格",
+        "icon":     "list-alt"
+    },
+    {
+        "name":     "Tab",
+        "title":    "选项卡",
+        "icon":     "folder-close"
+    },
+    {
+        "name":     "Loading",
+        "title":    "AJAX 加载遮罩",
+        "icon":     "time"
+    },
+    {
+        "name":     "Loading",
+        "title":    "AJAX 加载遮罩",
+        "icon":     "time"
+    }
+]
