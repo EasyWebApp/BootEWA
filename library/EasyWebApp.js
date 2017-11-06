@@ -1264,18 +1264,27 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
 
             $_Root.find('slot[name]').each(function () {
 
-                $('[slot="' + this.getAttribute('name') + '"]',  root)
-                    .replaceAll( this );
+                var name = this.name || this.getAttribute('name');
+
+                var $_Slot = $('[slot="' + name + '"]',  root);
+
+                if ( $_Slot[0] )  $_Slot.replaceAll( this );
             });
+
+            var Default;
 
             $_Root.find('slot').each(function () {
 
-                if (! arguments[0])
-                    this.parentNode.replaceChild(
-                        $.buildFragment( root.childNodes ),  this
-                    );
-                else
-                    this.parentNode.removeChild( this );
+                var name = this.name || this.getAttribute('name');
+
+                this.parentNode.replaceChild(
+                    $.buildFragment(
+                        ((name || Default)  ?  this  :  root).childNodes
+                    ),
+                    this
+                );
+
+                Default = 1;
             });
         },
         build:        function (root, base, HTML) {
@@ -2234,7 +2243,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
  *
  * @module    {function} WebApp
  *
- * @version   4.0 (2017-10-30) stable
+ * @version   4.0 (2017-11-06) stable
  *
  * @requires  jquery
  * @see       {@link http://jquery.com/ jQuery}
@@ -2282,23 +2291,49 @@ return  (function ($, WebApp, InnerLink) {
 
     var _require_ = self.require,  _link_;
 
-    self.require = $.extend(function () {
+    /**
+     * 增强的 require()
+     *
+     * @global
+     * @function require
+     *
+     * @param {string[]} dependency
+     * @param {function} [factory]
+     * @param {function} [fallback]
+     *
+     * @return {Promise}
+     *
+     * @see {@link https://github.com/amdjs/amdjs-api/wiki/require#requirearray-function-}
+     */
 
-        if (! document.currentScript)  return _require_.apply(this, arguments);
+    self.require = $.extend(function (dependency, factory, fallback) {
 
-        var iArgs = arguments,  iWebApp = new WebApp();
+        var script = document.currentScript, iWebApp = new WebApp();
 
-        var view = WebApp.View.instanceOf( document.currentScript );
+        return  new Promise(function (resolve, reject) {
 
-        var link = (view.$_View[0] === iWebApp.$_View[0])  ?
-                iWebApp[ iWebApp.lastPage ]  :
-                InnerLink.instanceOf( view.$_View );
+            var parameter = [
+                    dependency,
+                    (factory instanceof Function)  ?  factory  :  resolve,
+                    (fallback instanceof Function)  ?  fallback  :  reject
+                ];
 
-        _require_.call(this,  iArgs[0],  function () {
+            if (! script)
+                return _require_.apply(null, parameter);
 
-            _link_ = link;
+            var view = WebApp.View.instanceOf( script );
 
-            return  iArgs[1].apply(this, arguments);
+            var link = (view.$_View[0] === iWebApp.$_View[0])  ?
+                    iWebApp[ iWebApp.lastPage ]  :
+                    InnerLink.instanceOf( view.$_View );
+
+            _require_.call(this,  parameter[0],  function () {
+
+                _link_ = link;
+
+                return  parameter[1].apply(this, arguments);
+
+            },  parameter[2]);
         });
     },  _require_);
 

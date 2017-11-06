@@ -8,11 +8,15 @@
     #Advantage p {
         font-size:    1.2em;
     }
-    #Component > * {
+    #Component > a {
         margin-bottom:    1em;
+        color:            black;
     }
     #Component .glyphicon {
         font-size:    3em;
+    }
+    #Component img {
+        max-width:    3.57em;
     }
 </style>
 <div class="jumbotron">
@@ -62,11 +66,20 @@
     </section>
     <section>
         <h2>组件一览</h2>
+
         <div id="Component" is="ListView" data-href="?data=component/index.json">
-            <div class="col-md-3">
-                <i class="glyphicon glyphicon-${view.icon}"></i>
+
+            <a class="col-md-3" title="${view.name}"
+               target="${view.outer ? '_blank' : ''}" href="${view.outer}">
+
+                <i class="glyphicon glyphicon-${view.icon}"
+                   style="display: ${view.icon ? '' : 'none'}"></i><!--
+
+             --><img src="${view.image}"
+                     style="display: ${view.image ? '' : 'none'}" />
+
                 <h4><!--${view.title}--></h4>
-            </div>
+            </a>
         </div>
     </section>
 </div>

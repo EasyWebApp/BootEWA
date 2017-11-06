@@ -1,0 +1,25 @@
+<div class="modal fade" tabindex="-1" role="dialog"
+     id="${view.id}" aria-labelledby="Label_${view.__id__}">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="reset" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="Label_${view.__id__}">
+                    <slot name="legend"></slot>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <slot></slot>
+            </div>
+            <div class="modal-footer">
+                <slot name="button">
+                    <input type="submit" class="btn btn-primary" />
+                </slot>
+            </div>
+        </div>
+    </div>
+</div>

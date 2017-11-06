@@ -1,19 +1,26 @@
-<link rel="stylesheet" href="Loading.css" />
+<link rel="stylesheet" href="loading.css" />
 
 <script>
     require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
         EWA.component(function () {
 
-            var VM = this,  Load_Cover = this.$_View.children('div')[0];
+            var VM = this, fallback;
 
-            Load_Cover.addEventListener(
-                self.TransitionEvent ? 'transitionend' : 'webkitTransitionEnd',
-                function () {
+            var Load_Cover = this.$_View.children('div').on(
+                    'transitionend webkitTransitionEnd',  hide
+                )[0];
 
-                    if (! VM.count)  this.style.display = 'none';
-                }
-            );
+            function hide() {
+
+                if (! VM.count)  Load_Cover.style.display = 'none';
+
+                if (fallback != null)  clearTimeout( fallback );
+            }
+
+            var duration = parseFloat(
+                    $( Load_Cover ).css('transition-duration')
+                );
 
             $( document ).on('ajaxSend',  function () {
 
@@ -23,7 +30,8 @@
 
             }).on('ajaxSuccess',  function () {
 
-                if (VM.count > 0)  VM.count-- ;
+                if ((VM.count > 0)  &&  (--VM.count === 0))
+                    fallback = $.wait(duration, hide);
             });
 
             return  {count: 0};

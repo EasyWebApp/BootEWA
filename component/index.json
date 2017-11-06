@@ -5,6 +5,11 @@
         "icon":     "time"
     },
     {
+        "name":     "Dialog",
+        "title":    "对话框",
+        "icon":     "modal-window"
+    },
+    {
         "name":     "Progress",
         "title":    "进度条",
         "icon":     "tasks"
@@ -20,6 +25,11 @@
         "icon":     "list"
     },
     {
+        "name":     "upLoad_Image",
+        "title":    "单图片预览上传",
+        "icon":     "picture"
+    },
+    {
         "name":     "Data_Table",
         "title":    "数据表格",
         "icon":     "list-alt"
@@ -30,13 +40,14 @@
         "icon":     "folder-close"
     },
     {
-        "name":     "Loading",
-        "title":    "AJAX 加载遮罩",
-        "icon":     "time"
+        "name":     "MediumEditor",
+        "title":    "仿 Medium 富文本编辑器",
+        "icon":     "edit"
     },
     {
-        "name":     "Loading",
-        "title":    "AJAX 加载遮罩",
-        "icon":     "time"
+        "name":     "GitHub-Web-Widget",
+        "title":    "GitHub 挂件库",
+        "image":    "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
+        "outer":    "https://github.com/TechQuery/GitHub-Web-Widget"
     }
 ]
