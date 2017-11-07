@@ -5,6 +5,11 @@
         "icon":     "time"
     },
     {
+        "name":     "Read_Nav",
+        "title":    "阅读导航栏",
+        "icon":     "indent-left"
+    },
+    {
         "name":     "Dialog",
         "title":    "对话框",
         "icon":     "modal-window"
@@ -25,7 +30,7 @@
         "icon":     "list"
     },
     {
-        "name":     "upLoad_Image",
+        "name":     "ImageUploader",
         "title":    "单图片预览上传",
         "icon":     "picture"
     },

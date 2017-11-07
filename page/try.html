@@ -1,26 +1,120 @@
 <style disabled>
-    iframe {
-        width:         100%;
-        min-height:    36em;
+    .container-fluid {
+        width:    95%;
+    }
+    .form-control {
+        height:    auto;
     }
 </style>
-<script>
-    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+<script src="try.js"></script>
 
-        EWA.component(function () {
+<div class="alert alert-warning alert-dismissible" role="alert"
+     style="display: ${((! scope.id) || view.target) ? 'none' : ''}">
 
-            this.$_View.find('.jsbin-embed').replaceWith(function () {
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    您想看的组件暂不方便在本页演示……
+</div>
 
-                return  $('<iframe />', {
-                    frameBorder:        0,
-                    allowTranspancy:    true,
-                    src:                this.href
-                })[0];
-            });
-        });
-    });
-</script>
+<div class="container-fluid"><div class="row">
+    <article class="col-md-9">
+        <section>
+            <h3>阅读导航栏</h3>
+            <h4>【效果】</h4>
+            <p>（见右侧）</p>
+            <h4>【代码】</h4>
+            <pre><code>&lt;nav data-href="../component/Read_Nav.html">&lt;/nav></code></pre>
+        </section>
+        <section>
+            <h3>进度条</h3>
+            <h4>【效果】</h4>
+            <div data-href="../component/Progress.html"
+                 data-to-do="6" data-done="4" data-expired="1989-06-04">
+            </div>
+            <h4>【代码】</h4>
+            <pre><code></code></pre>
+        </section>
+        <section>
+            <h3>建议输入框</h3>
+            <h4>【效果】</h4>
+            <div data-href="../component/Search.html"
+                 data-key="school" data-place-holder="大学（回车搜索）"
+                 data-api="/openAPI/university?keyWord="
+                 oncheck="${view.atSchool}">
+                <span slot="item">
+                    <!--${view.schoolname}-->
+                    <small class="pull-right"><!--${view.province}--></small>
+                </span>
+            </div>
+            <h4>【代码】</h4>
+            <pre><code></code></pre>
+        </section>
+        <section>
+            <h3>行政区划联动选择框</h3>
+            <h4>【效果】</h4>
+            <div data-href="../component/Admin_District.html" data-adcode="510107">
+            </div>
+            <h4>【代码】</h4>
+            <pre><code></code></pre>
+        </section>
+        <section>
+            <h3>仿 Medium 富文本编辑器</h3>
+            <h4>【效果】</h4>
+            <div class="form-group"
+                 data-href="../component/MediumEditor/index.html"
+                 data-locale="zh-CN">
 
-<a class="jsbin-embed" href="http://jsbin.com/katemofega/embed?html,css,output">
-    JS Bin on jsbin.com
-</a>
+                <textarea class="form-control"
+                          name="content" required value="${scope.content}"
+                          placeholder="正文"></textarea>
+            </div>
+            <h4>【代码】</h4>
+            <pre><code></code></pre>
+        </section>
+        <section>
+            <h3>数据表格</h3>
+            <h4>【效果】</h4>
+            <div data-href="../component/Data_Table.html"
+                 data-rows="10" data-page="1">
+
+                <input type="search" class="form-control" slot="toolbar"
+                       name="keyWord" onchange="${scope.search}"
+                       placeholder="回车搜索" />
+
+                <table class="table table-striped table-hover">
+                    <thead><tr>
+                        <th>序号</th>
+                        <th>全名</th>
+                        <th>类型</th>
+                        <th>驻地</th>
+                        <th>隶属</th>
+                        <th>等级</th>
+                    </tr></thead>
+                    <tbody data-href="?data=http://data.api.gkcx.eol.cn/soudaxue/queryschool.html?messtype=jsonp&callback=?&size=${view.rows}&page=${view.page}&keyWord1=${view.keyWord}">
+                        <tr>
+                            <td class="index"></td>
+                            <td><a target="_blank" href="${view.guanwang}">
+                                <!--${view.schoolname}-->
+                            </a></td>
+                            <td><!--
+                                ${view.schoolnature}
+                                ${view.schoolproperty}
+                                ${view.schooltype}
+                         --></td>
+                            <td><!--${view.province}--></td>
+                            <td><!--${view.membership}--></td>
+                            <td><!--
+                                ${+view.f985 ? '985' : ''}
+                                ${+view.f211 ? '211' : ''}
+                         --></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>【代码】</h4>
+            <pre><code></code></pre>
+        </section>
+    </article>
+    <nav class="col-md-3" data-href="../component/Read_Nav.html"></nav>
+</div>

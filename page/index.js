@@ -31,7 +31,15 @@ require([
             );
     }).ready(function () {
 
-        var iWebApp = $('#PageBox').iWebApp();
+        var iWebApp = $('#PageBox').iWebApp('https://fcc-cdg.leanapp.cn');
+
+    //  JSON 请求预处理
+
+        $.ajaxPrefilter('json',  function (option) {
+
+            if (option.url.match( /(component|page)\// ))
+                option.url = iWebApp.pageRoot + option.url;
+        });
 
     //  GitHub API 请求处理
 

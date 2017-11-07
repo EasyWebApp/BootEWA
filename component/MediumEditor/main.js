@@ -9,7 +9,9 @@ define([
     return  function (text_input, option, upload_URL, onInput) {
 
         var editor = new MediumEditor(text_input, $.extend({
-                elementsContainer:    text_input.parentNode,
+                elementsContainer:
+                    $( text_input ).offsetParent().is('html, body')  ?
+                        text_input.parentNode  :  null,
                 placeholder:          {text:  text_input.placeholder},
                 autoLink:             true,
                 imageDragging:        false,

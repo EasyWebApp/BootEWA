@@ -1,10 +1,16 @@
-require(['jquery', 'EasyWebApp', 'FileKit'],  function ($, EWA, FileKit) {
+require.config({
+    packages:    ['ImageUploader']
+});
+
+require([
+    'jquery', 'EasyWebApp', 'ImageUploader/FileKit'
+],  function ($, EWA, FileKit) {
 
     EWA.component(function (data) {
 
-        var VM = this,
-            File_DOM = this.$_View.find('[type="file"]')[0],
-            iWebApp = new EWA();
+        var File_DOM = this.$_View.find('[type="file"]')[0],
+            VM = this,
+            path = (new URL(data.action, (new EWA()).apiRoot))  +  '';
 
         $.extend(data, {
             value:      data.value || '',
@@ -30,14 +36,11 @@ require(['jquery', 'EasyWebApp', 'FileKit'],  function ($, EWA, FileKit) {
                     File_DOM.name, File_DOM.files[0], File_DOM.files[0].name
                 );
 
-                FileKit.upload(
-                    new URL(data.action, iWebApp.apiRoot) + '',
-                    form,
-                    function () {
+                FileKit.upload(path,  form,  function () {
 
-                        VM.percent = arguments[0];
-                    }
-                ).then(function () {
+                    VM.percent = arguments[0];
+
+                }).then(function () {
 
                     VM.emit(
                         {

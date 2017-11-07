@@ -1,0 +1,32 @@
+<style disabled>
+    ul {
+        margin:        0;
+        padding:       0;
+        list-style:    none;
+        overflow:      auto;
+        outline:       none;
+    }
+    ul:empty {
+        display:    none;
+    }
+    ul ul {
+        padding-left:    1em;
+    }
+    ul li > a {
+        display:        block;
+        padding:        0.25em  0.5em;
+        border-left:    3px  solid  transparent;
+    }
+    ul li.active > a {
+        border-left-color:    blue;
+    }
+</style>
+<script src="Read_Nav.js"></script>
+
+<ul class="nav nav-pills nav-stacked" is="TreeView" data-name="list">
+    <li role="presentation">
+        <a title="${view.title}" href="#${view.ID}" onclick="${scope.scrollTo}">
+            ${view.title}
+        </a>
+    </li>
+</ul>

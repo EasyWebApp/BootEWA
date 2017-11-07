@@ -67,10 +67,12 @@
     <section>
         <h2>组件一览</h2>
 
-        <div id="Component" is="ListView" data-href="?data=component/index.json">
+        <div class="row" id="Component"
+             is="ListView" data-href="?data=component/index.json">
 
             <a class="col-md-3" title="${view.name}"
-               target="${view.outer ? '_blank' : ''}" href="${view.outer}">
+               target="${view.outer ? '_blank' : ''}"
+               href="${view.outer || ('page/try.html?id=' + view.name)}">
 
                 <i class="glyphicon glyphicon-${view.icon}"
                    style="display: ${view.icon ? '' : 'none'}"></i><!--
