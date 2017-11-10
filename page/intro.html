@@ -2,6 +2,9 @@
     .container > section > h2 {
         margin:    4rem  auto;
     }
+    .row > a {
+        display: block
+    }
     #Advantage .glyphicon {
         font-size:    5em;
     }
@@ -17,6 +20,13 @@
     }
     #Component img {
         max-width:    3.57em;
+    }
+    #Case img,  #Case .glyphicon  {
+        height:       10rem;
+        font-size:    10rem;
+    }
+    #Case h3 {
+        margin:    0.5em  auto  1.5em;
     }
 </style>
 <div class="jumbotron">
@@ -70,7 +80,7 @@
         <div class="row" id="Component"
              is="ListView" data-href="?data=component/index.json">
 
-            <a class="col-md-3" title="${view.name}"
+            <a class="col-md-3 col-xs-6" title="${view.name}"
                target="${view.outer ? '_blank' : ''}"
                href="${view.outer || ('page/try.html?id=' + view.name)}">
 
@@ -81,6 +91,23 @@
                      style="display: ${view.image ? '' : 'none'}" />
 
                 <h4><!--${view.title}--></h4>
+            </a>
+        </div>
+    </section>
+    <section>
+        <h2>成功案例</h2>
+        <div class="row text-center" id="Case">
+            <a class="col-md-4" href="http://chengdu.freecodecamp.cn/">
+
+                <img src="https://web-conf.leanapp.cn/lib/logos/FCC-CDG.jpg" />
+
+                <h3>freeCodeCamp<br />成都社区官网</h3>
+            </a>
+            <a class="col-md-4" href="https://github.com/TechQuery/APIdoc-EWA">
+
+                <i class="glyphicon glyphicon-book text-primary"></i>
+
+                <h3>APIdoc<br />默认模板（优化版）</h3>
             </a>
         </div>
     </section>

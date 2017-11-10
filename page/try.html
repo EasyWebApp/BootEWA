@@ -8,12 +8,9 @@
 </style>
 <script src="try.js"></script>
 
-<div class="alert alert-warning alert-dismissible" role="alert"
+<div data-href="../component/Alert.html" data-type="warning"
      style="display: ${((! scope.id) || view.target) ? 'none' : ''}">
 
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
     您想看的组件暂不方便在本页演示……
 </div>
 
@@ -91,7 +88,7 @@
                         <th>隶属</th>
                         <th>等级</th>
                     </tr></thead>
-                    <tbody data-href="?data=http://data.api.gkcx.eol.cn/soudaxue/queryschool.html?messtype=jsonp&callback=?&size=${view.rows}&page=${view.page}&keyWord1=${view.keyWord}">
+                    <tbody data-href="?data=openAPI/university?size=${view.rows}&page=${view.page}&keyWord=${view.keyWord}">
                         <tr>
                             <td class="index"></td>
                             <td><a target="_blank" href="${view.guanwang}">

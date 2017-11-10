@@ -2,6 +2,13 @@
 
 基于 [EasyWebApp](https://tech_query.oschina.io/easywebapp/) v4+ 引擎的 [BootStrap](http://v3.bootcss.com/) Web 组件库
 
+[![Learn it with Demo](https://img.shields.io/badge/Learn%20it-with%20Demo-blue.svg)](https://github.com/TechQuery/GitHub/)
+[![Join the chat at https://gitter.im/BootEWA/Lobby](https://badges.gitter.im/BootEWA/Lobby.svg)](https://gitter.im/BootEWA/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/terHRJgDULkGjswWhddcBSDJ/TechQuery/BootEWA'>
+  <img alt='Sponsor' width='750' height='68' src='https://app.codesponsor.io/embed/terHRJgDULkGjswWhddcBSDJ/TechQuery/BootEWA.svg' />
+</a>
+
 
 
 ## 特性优势
@@ -20,20 +27,34 @@
 
  2. [阅读导航栏](component/Read_Nav.html)
 
- 3. [对话框](component/Dialog.html)
+ 3. [警告框](component/Alert.html)
 
- 4. [进度条](component/Progress.html)
+ 4. [对话框](component/Dialog.html)
 
- 5. [建议输入框](component/Search.html)
+ 5. [进度条](component/Progress.html)
 
- 6. [行政区划联动选择框](component/Admin_District.html)
+ 6. [建议输入框](component/Search.html)
 
- 7. [单图片预览上传](component/ImageUploader/index.html)
+ 7. [行政区划联动选择框](component/Admin_District.html)
 
- 8. [数据表格](component/Data_Table.html)
+ 8. [单图片预览上传](component/ImageUploader)
 
- 9. [选项卡](component/Tab.html)
+ 9. [数据表格](component/Data_Table.html)
 
- 10. [仿 Medium 富文本编辑器](component/MediumEditor/index.html)
+ 10. [选项卡](component/Tab.html)
 
- 11. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
+ 11. [轮播图](component/Carousel.html)
+
+ 12. [仿 Medium 富文本编辑器](component/MediumEditor)
+
+ 13. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
+
+
+
+## 成功案例
+
+ 1. [freeCodeCamp 成都社区官网](http://chengdu.freecodecamp.cn/)
+
+ 2. [APIdoc 默认模板（优化版）](https://github.com/TechQuery/APIdoc-EWA)
+
+ 3. [Git Developer Network](https://git-dev.tk/)

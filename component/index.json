@@ -10,6 +10,11 @@
         "icon":     "indent-left"
     },
     {
+        "name":     "Alert",
+        "title":    "警告框",
+        "icon":     "alert"
+    },
+    {
         "name":     "Dialog",
         "title":    "对话框",
         "icon":     "modal-window"
@@ -43,6 +48,11 @@
         "name":     "Tab",
         "title":    "选项卡",
         "icon":     "folder-close"
+    },
+    {
+        "name":     "Carousel",
+        "title":    "轮播图",
+        "icon":     "film"
     },
     {
         "name":     "MediumEditor",
