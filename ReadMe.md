@@ -25,29 +25,31 @@
 
  1. [AJAX 加载遮罩](component/Loading.html)
 
- 2. [阅读导航栏](component/Read_Nav.html)
+ 2. [全局导航栏](component/NavBar.html)
 
- 3. [警告框](component/Alert.html)
+ 3. [阅读导航栏](component/Read_Nav.html)
 
- 4. [对话框](component/Dialog.html)
+ 4. [警告框](component/Alert.html)
 
- 5. [进度条](component/Progress.html)
+ 5. [对话框](component/Dialog.html)
 
- 6. [建议输入框](component/Search.html)
+ 6. [进度条](component/Progress.html)
 
- 7. [行政区划联动选择框](component/Admin_District.html)
+ 7. [建议输入框](component/Search.html)
 
- 8. [单图片预览上传](component/ImageUploader)
+ 8. [行政区划联动选择框](component/Admin_District.html)
 
- 9. [数据表格](component/Data_Table.html)
+ 9. [单图片预览上传](component/ImageUploader)
 
- 10. [选项卡](component/Tab.html)
+ 10. [数据表格](component/Data_Table.html)
 
- 11. [轮播图](component/Carousel.html)
+ 11. [选项卡](component/Tab.html)
 
- 12. [仿 Medium 富文本编辑器](component/MediumEditor)
+ 12. [轮播图](component/Carousel.html)
 
- 13. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
+ 13. [仿 Medium 富文本编辑器](component/MediumEditor)
+
+ 14. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
 
 
 

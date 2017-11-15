@@ -5,6 +5,11 @@
         "icon":     "time"
     },
     {
+        "name":     "NavBar",
+        "title":    "全局导航栏",
+        "icon":     "pushpin"
+    },
+    {
         "name":     "Read_Nav",
         "title":    "阅读导航栏",
         "icon":     "indent-left"

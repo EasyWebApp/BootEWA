@@ -1,0 +1,38 @@
+<nav class="navbar navbar-fixed-top ${view.dark ? 'navbar-inverse' : ''}">
+
+    <div class="container">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#Main_Nav" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" target="_top" href="" title="返回首页">
+
+                <slot name="logo"><!--${view.title}--></slot>
+            </a>
+        </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="Main_Nav">
+
+            <slot name="left"></slot>
+
+            <ul class="nav navbar-nav" data-name="channel">
+
+                <li role="${view.URL ? '' : 'separator'}"
+                    class="${view.URL ? '' : 'divider'}">
+
+                    <a target="${view.target}" href="${view.URL}"
+                       title="${view.name}" data-autofocus="${! view.__index__}">
+                        <!--${view.title}-->
+                    </a>
+                </li>
+            </ul>
+            <slot></slot>
+        </div>
+    </div>
+</nav>

@@ -393,7 +393,13 @@ var view_RenderNode = (function ($) {
 
     RenderNode.expression = /\$\{([\s\S]+?)\}/g;
 
-    RenderNode.reference = /(view|scope)\.(\w+)/g;
+    RenderNode.reference = /(\w+)(?:\.|\[(?:'|")|\()(\w+)?/g;
+
+    RenderNode.Reference_Mask = {
+        view:     1,
+        this:     4,
+        scope:    8
+    };
 
     RenderNode.Template_Type = $.makeSet(2, 3, 8);
 
@@ -430,11 +436,19 @@ var view_RenderNode = (function ($) {
                     expression.replace(
                         RenderNode.reference,  function (_, scope, key) {
 
+                            var global;
+
                             _This_.type = _This_.type | (
-                                (scope === 'view')  ?  1  :  4
+                                RenderNode.Reference_Mask[ scope ]  ||  (
+                                    (global = self[ scope ])  &&  16
+                                )
                             );
 
-                            if (_This_.indexOf( key )  <  0)
+                            if (
+                                (scope !== 'this')  &&
+                                (! global)  &&
+                                (_This_.indexOf( key )  <  0)
+                            )
                                 _This_.push( key );
                         }
                     );
@@ -544,6 +558,7 @@ var InnerLink = (function ($, Observer) {
      * @author  TechQuery
      *
      * @class   InnerLink
+     * @extends Observer
      *
      * @param   {jQueryAcceptable} $_View - HTMLElement of Inner Link
      *
@@ -1271,20 +1286,20 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
                 if ( $_Slot[0] )  $_Slot.replaceAll( this );
             });
 
-            var Default;
+            var default_all;
 
             $_Root.find('slot').each(function () {
 
                 var name = this.name || this.getAttribute('name');
 
+                var default_self = name || default_all;
+
                 this.parentNode.replaceChild(
-                    $.buildFragment(
-                        ((name || Default)  ?  this  :  root).childNodes
-                    ),
+                    $.buildFragment((default_self ? this : root).childNodes),
                     this
                 );
 
-                Default = 1;
+                if (! default_self)  default_all = 1;
             });
         },
         build:        function (root, base, HTML) {
@@ -1413,7 +1428,7 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
                     ) {
                         node = new RenderNode( node );
 
-                        if ( node[0] )  this.signIn( node );
+                        if ( node.type )  this.signIn( node );
                     }
                 },
                 this
@@ -1480,8 +1495,12 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
 
                     node = _This_[ node ];
 
-                    if ((node !== exclude)  &&  (
+                    if ((
                         (bit > 0)  ||  ((node || '').type > 1)
+                    ) && (
+                        !(node instanceof RenderNode)  ||
+                        (node.name !== 'value')  ||
+                        (node.ownerElement !== exclude)
                     )) {
                         forEach  &&  forEach.call(_This_, node);
 
@@ -1541,13 +1560,16 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
 
 //  Render data from user input
 
-    $('html').on('input change',  ':field',  $.throttle(function () {
+    function reRender() {
 
         var iView = HTMLView.instanceOf( this );
 
         if (iView  &&  $( this ).validate())  iView.render( this );
+    }
 
-    })).on('reset',  'form',  function () {
+    $('html').on('change', ':field', reRender).on(
+        'input',  ':field',  $.throttle( reRender )
+    ).on('reset',  'form',  function () {
 
         var data = $.paramJSON('?'  +  $( this ).serialize());
 
@@ -2243,7 +2265,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
  *
  * @module    {function} WebApp
  *
- * @version   4.0 (2017-11-06) stable
+ * @version   4.0 (2017-11-15) stable
  *
  * @requires  jquery
  * @see       {@link http://jquery.com/ jQuery}
@@ -2289,7 +2311,7 @@ return  (function ($, WebApp, InnerLink) {
 
 /* ---------- AMD based Component API ---------- */
 
-    var _require_ = self.require,  _link_;
+    var _require_ = self.require,  _script_;
 
     /**
      * 增强的 require()
@@ -2308,7 +2330,7 @@ return  (function ($, WebApp, InnerLink) {
 
     self.require = $.extend(function (dependency, factory, fallback) {
 
-        var script = document.currentScript, iWebApp = new WebApp();
+        var script = document.currentScript;
 
         return  new Promise(function (resolve, reject) {
 
@@ -2318,18 +2340,11 @@ return  (function ($, WebApp, InnerLink) {
                     (fallback instanceof Function)  ?  fallback  :  reject
                 ];
 
-            if (! script)
-                return _require_.apply(null, parameter);
-
-            var view = WebApp.View.instanceOf( script );
-
-            var link = (view.$_View[0] === iWebApp.$_View[0])  ?
-                    iWebApp[ iWebApp.lastPage ]  :
-                    InnerLink.instanceOf( view.$_View );
+            if (! script)  return _require_.apply(null, parameter);
 
             _require_.call(this,  parameter[0],  function () {
 
-                _link_ = link;
+                _script_ = script;
 
                 return  parameter[1].apply(this, arguments);
 
@@ -2351,7 +2366,13 @@ return  (function ($, WebApp, InnerLink) {
 
     WebApp.component = function (factory) {
 
-        if (_link_)  _link_.emit('load', factory);
+        var iWebApp = new this(), view = this.View.instanceOf(_script_);
+
+        var link = (view.$_View[0] === iWebApp.$_View[0])  ?
+                iWebApp[ iWebApp.lastPage ]  :
+                InnerLink.instanceOf( view.$_View );
+
+        if ( link )  link.emit('load', factory);
 
         return this;
     };

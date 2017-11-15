@@ -1,4 +1,4 @@
-require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+require(['jquery', 'EasyWebApp', 'HighLight'],  function ($, EWA, HighLight) {
 
 //  数据整理
 
@@ -53,6 +53,9 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
                     return  '"\n' + ' '.repeat( offset ) + 'data-';
                 });
+        }).find('code').addClass('hljs').html(function () {
+
+            return  HighLight.highlightAuto(this.textContent, ['html']).value;
         });
 
     //  页内定位
