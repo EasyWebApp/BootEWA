@@ -6,13 +6,13 @@ define([
     var iWebApp = new EWA();
 
 
-    return  function (text_input, option, upload_URL, onInput) {
+    return  function (option, image_API, onInput) {
 
-        var editor = new MediumEditor(text_input, $.extend({
+        var editor = new MediumEditor(this[0], $.extend({
                 elementsContainer:
-                    $( text_input ).offsetParent().is('html, body')  ?
-                        text_input.parentNode  :  null,
-                placeholder:          {text:  text_input.placeholder},
+                    this.offsetParent().is('html, body')  ?
+                        this[0].parentNode  :  null,
+                placeholder:          {text:  this[0].placeholder},
                 autoLink:             true,
                 imageDragging:        false,
                 paste:                {
@@ -32,21 +32,24 @@ define([
         if (onInput instanceof Function)
             editor.subscribe('editableInput',  onInput.bind( editor ));
 
-        $( text_input ).mediumInsert({
-            editor:    editor,
-            addons:    {
-                images:    {
-                    fileUploadOptions:    {
-                        url:          new URL(upload_URL, iWebApp.apiRoot) + '',
-                        paramName:    'file',
-                    },
-                    deleteMethod:         'GET',
-                    deleteScript:         ''  +  new URL(
-                        'ImageDelete.json',  new URL(module.uri, self.location)
-                    )
+        if ( image_API ) {
+
+            image_API = new URL(image_API, iWebApp.apiRoot);
+
+            this.mediumInsert({
+                editor:    editor,
+                addons:    {
+                    images:    {
+                        fileUploadOptions:    {
+                            url:          image_API + '',
+                            paramName:    'file',
+                        },
+                        deleteMethod:         'DELETE',
+                        deleteScript:         image_API + ''
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return editor;
     };

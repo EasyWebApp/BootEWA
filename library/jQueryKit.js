@@ -242,6 +242,22 @@ var object_ext_base = (function ($) {
      * @param    {object}  object
      *
      * @returns  {boolean}
+     *
+     * @example  // 字符串元素不可变，故不是类数组
+     *
+     *     $.likeArray(new String(''))    //  false
+     *
+     * @example  // 有 length 属性、但没有对应数量元素的，不是类数组
+     *
+     *     $.likeArray({0: 'a', length: 2})    //  false
+     *
+     * @example  // NodeList、HTMLCollection、jQuery 等是类数组
+     *
+     *     $.likeArray( document.head.childNodes )    //  true
+     *
+     * @example  // Node 及其子类不是类数组
+     *
+     *     $.likeArray( document.createTextNode('') )    //  false
      */
 
     $.likeArray = function (object) {
@@ -254,8 +270,12 @@ var object_ext_base = (function ($) {
 
         return Boolean(
             object  &&
-            (typeof object.length === 'number')  &&
-            (typeof object !== 'string')
+            (typeof object !== 'string')  &&
+            (typeof object.length === 'number')  &&  (
+                object.length  ?
+                    ((object.length - 1)  in  object)  :
+                    !(object instanceof Node)
+            )
         );
     };
 
@@ -370,11 +390,23 @@ var object_ext_base = (function ($) {
      *
      * @memberof $
      *
-     * @param   {*}       left
-     * @param   {*}       right
-     * @param   {number}  [depth=1]
+     * @param  {*}       left
+     * @param  {*}       right
+     * @param  {number}  [depth=1]
      *
-     * @returns {boolean}
+     * @return {boolean}
+     *
+     * @example  // 基本类型比较
+     *
+     *     $.isEqual(1, 1)    //  true
+     *
+     * @example  // 引用类型（浅）
+     *
+     *     $.isEqual({a: 1},  {a: 1})    // true
+     *
+     * @example  // 引用类型（深）
+     *
+     *     $.isEqual({a: 1, b: {c: 2}},  {a: 1, b: {c: 2}},  2)    // true
      */
 
     $.isEqual = function isEqual(left, right, depth) {
@@ -1183,9 +1215,8 @@ var object_ext_Class = (function ($) {
             try {
                 Object.defineProperty(this, key, $.extend(
                     {
-                        value:           value,
-                        writable:        true,
-                        configurable:    true
+                        value:       value,
+                        writable:    true
                     },
                     config || { }
                 ));
@@ -2286,8 +2317,7 @@ var event_ext_base = (function ($, Observer) {
             replace:    function (iNew) {
 
                 iNew = $.buildFragment(
-                    (iNew instanceof Element)  ?
-                        [ iNew ]  :  $.makeArray( iNew )
+                    $.likeArray( iNew )  ?  $.makeArray( iNew )  :  [ iNew ]
                 );
 
                 if (! iNew.childNodes[0])  return;
@@ -2373,6 +2403,15 @@ var AJAX_ext_URL = (function ($) {
      *                               just use its value while the parameter is
      *                               empty
      * @returns  {object} Plain Object for the Query String
+     *
+     * @example  // URL 查询字符串
+     *
+     *     $.paramJSON('?a=1&b=two&b=true')
+     *
+     *     //  {
+     *             a:    1,
+     *             b:    ['two', true]
+     *         }
      */
 
     $.paramJSON = function (search) {
@@ -2493,11 +2532,32 @@ var AJAX_ext_URL = (function ($) {
          *                            (Use `location.href` while the parameter is
          *                            empty)
          * @returns  {string}
+         *
+         * @example  // 传 相对路径 时返回其目录
+         *
+         *     $.filePath('/test/unit.html')  // '/test/'
+         *
+         * @example  // 传 查询字符串 时返回空字符串
+         *
+         *     $.filePath('?query=string')  // ''
+         *
+         * @example  // 传 URL（字符串）时返回其目录
+         *
+         *     $.filePath('http://localhost:8084/test/unit.html')
+         *
+         *     // 'http://localhost:8084/test/'
+         *
+         * @example  // 传 URL（对象）时返回其目录
+         *
+         *     $.filePath(new URL('http://localhost:8084/test/unit.html'))
+         *
+         *     // 'http://localhost:8084/test/'
          */
         filePath:     function (URL) {
-            return (
-                URL || BOM.location.href
-            ).match(/([^\?\#]+)(\?|\#)?/)[1].split('/').slice(0, -1).join('/');
+
+            return  (arguments.length ? URL : BOM.location).toString()
+                .split(/\?|\#/)[0]
+                .replace(/[^\/\\]*$/, '');
         },
         /**
          * 获取 URL 的域（源）
@@ -2510,6 +2570,12 @@ var AJAX_ext_URL = (function ($) {
          *                            (Use `location.origin` while the parameter
          *                            is empty)
          * @returns  {string} Origin of the URL
+         *
+         * @example  // 给定 URL
+         *
+         *     $.urlDomain('http://localhost:8080/path?query=string')
+         *
+         *     // 'http://localhost:8080'
          */
         urlDomain:    function (URL) {
 
@@ -2526,11 +2592,19 @@ var AJAX_ext_URL = (function ($) {
          * @param    {string}  URL
          *
          * @returns  {boolean}
+         *
+         * @example  // 跨域 绝对路径
+         *
+         *     $.isXDomain('http://localhost/iQuery')  // true
+         *
+         * @example  // 同域 相对路径
+         *
+         *     $.isXDomain('/iQuery')  // false
          */
         isXDomain:    function (URL) {
             return (
                 BOM.location.origin !==
-                (new BOM.URL(URL,  this.filePath() + '/')).origin
+                (new BOM.URL(URL, this.filePath())).origin
             );
         }
     });
@@ -4025,14 +4099,16 @@ var AJAX_ext_HTML_Request = (function ($) {
 
     function Value_Check() {
 
-        if ((! this.value)  &&  (this.getAttribute('required') != null))
+        var value = this.value || this.textContent;
+
+        if ((! value)  &&  (this.getAttribute('required') != null))
             return false;
 
-        var iRegEx = this.getAttribute('pattern');
+        var regexp = this.getAttribute('pattern');
 
-        if (iRegEx)  try {
+        if (regexp)  try {
 
-            return  RegExp( iRegEx ).test( this.value );
+            return  RegExp( regexp ).test( value );
 
         } catch (iError) { }
 
@@ -4040,13 +4116,13 @@ var AJAX_ext_HTML_Request = (function ($) {
             (this.tagName.toLowerCase() === 'input')  &&
             (this.getAttribute('type') === 'number')
         ) {
-            var iNumber = Number( this.value ),
-                iMin = Number( this.getAttribute('min') );
+            var number = +value,  min = +( this.getAttribute('min') );
+
             if (
-                isNaN( iNumber )  ||
-                (iNumber < iMin)  ||
-                (iNumber > Number(this.getAttribute('max') || Infinity))  ||
-                ((iNumber - iMin)  %  Number( this.getAttribute('step') ))
+                isNaN( number )  ||
+                (number < min)  ||
+                (number > +(this.getAttribute('max') || Infinity))  ||
+                ((number - min)  %  this.getAttribute('step'))
             )
                 return false;
         }

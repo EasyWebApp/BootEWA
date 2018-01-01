@@ -1,0 +1,26 @@
+<style disabled>
+    .swiper-wrapper {
+        margin:        0;
+        padding:       0;
+        list-style:    none;
+    }
+    .swiper-wrapper > .swiper-slide {
+        padding:    1em;
+    }
+    .swiper-pagination {
+        padding-bottom:    1em;
+    }
+</style>
+<script src="index.js"></script>
+
+<div class="swiper-container">
+    <ul class="swiper-wrapper" data-name="list">
+
+        <li class="swiper-slide" is="Board_3D" title="${view.title}">
+            <slot>
+                <img class="img-responsive" src="${view.imageURL}" />
+            </slot>
+        </li>
+    </ul>
+    <div class="swiper-pagination"></div>
+</div>

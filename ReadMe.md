@@ -37,19 +37,21 @@
 
  7. [建议输入框](component/Search.html)
 
- 8. [行政区划联动选择框](component/Admin_District.html)
+ 8. [行政区划联动选择框](component/Admin_District.html)（基于[高德地图 HTTP API](http://lbs.amap.com/api/webservice/guide/api/district/)）
 
- 9. [单图片预览上传](component/ImageUploader)
+ 9. [单图片预览上传](component/ImageUploader)（上传接口遵循 [jQuery File Upload](https://github.com/orthes/medium-editor-insert-plugin/wiki/v2.x-Server-response) 响应格式）
 
- 10. [数据表格](component/Data_Table.html)
+ 10. [分页列表](component/PageList.html)（兼容 数据表格、条目列表）
 
  11. [选项卡](component/Tab.html)
 
  12. [轮播图](component/Carousel.html)
 
- 13. [仿 Medium 富文本编辑器](component/MediumEditor)
+ 13. [轮播图 3D](component/Gallery.html)（基于 [Swiper 3.x](http://3.swiper.com.cn/)）
 
- 14. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
+ 14. [仿 Medium 富文本编辑器](component/MediumEditor)（基于 [MediumEditor](https://yabwe.github.io/medium-editor/)）
+
+ 15. [GitHub 挂件库](https://github.com/TechQuery/GitHub-Web-Widget)
 
 
 

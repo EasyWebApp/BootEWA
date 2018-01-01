@@ -7,14 +7,18 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
         this.$_View.children().on('input', false);
 
+        var $_List = this.$_Slot.not('[slot]');
+
+        $_List = $_List.is(':listview') ? $_List : $_List.find(':listview');
+
         var iEvent = {
                 type:      'data',
-                target:    this.$_View.find('tbody')[0]
+                target:    $_List[0]
             };
 
         var VM = this.on('update',  function () {
 
-                iWebApp.load( iEvent.target );
+                iWebApp.load( $_List );
             });
 
         iWebApp.off( iEvent ).on(iEvent,  function (_, data) {
@@ -46,6 +50,14 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
                     event.stopPropagation();    event.preventDefault();
                 }
+            },
+            search:        function (event) {
+
+                this.render(event.target.name, event.target.value);
+
+                iWebApp.load( $_List );
+
+                event.stopPropagation();
             }
         });
     });

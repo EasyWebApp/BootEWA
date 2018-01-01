@@ -2,9 +2,6 @@
     .container-fluid {
         width:    95%;
     }
-    .form-control {
-        height:    auto;
-    }
     .row pre {
         padding:    0;
     }
@@ -83,12 +80,8 @@
         <section>
             <h3>数据表格</h3>
             <h4>【效果】</h4>
-            <div data-href="../component/Data_Table.html"
+            <div data-href="../component/PageList.html"
                  data-rows="10" data-page="1">
-
-                <input type="search" class="form-control" slot="toolbar"
-                       name="keyWord" onchange="${scope.search}"
-                       placeholder="回车搜索" />
 
                 <table class="table table-striped table-hover">
                     <thead><tr>
@@ -99,7 +92,7 @@
                         <th>隶属</th>
                         <th>等级</th>
                     </tr></thead>
-                    <tbody data-href="?data=openAPI/university?size=${view.rows}&page=${view.page}&keyWord=${view.keyWord}">
+                    <tbody data-href="?data=openAPI/university?rows=${view.rows}&page=${view.page}&keyWord=${view.keyWord}">
                         <tr>
                             <td class="index"></td>
                             <td><a target="_blank" href="${view.guanwang}">

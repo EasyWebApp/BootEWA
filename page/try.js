@@ -73,18 +73,5 @@ require(['jquery', 'EasyWebApp', 'HighLight'],  function ($, EWA, HighLight) {
         });
 
         data.target = $_Target[0] && data.id;
-
-    //  数据表组件
-
-        var $_tBody = this.$_View.find('tbody');
-
-        data.search = function (event) {
-
-            this.render(event.target.name, event.target.value);
-
-            iWebApp.load( $_tBody );
-
-            event.stopPropagation();
-        };
     });
 });

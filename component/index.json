@@ -45,8 +45,8 @@
         "icon":     "picture"
     },
     {
-        "name":     "Data_Table",
-        "title":    "数据表格",
+        "name":     "PageList",
+        "title":    "分页列表",
         "icon":     "list-alt"
     },
     {
@@ -57,6 +57,11 @@
     {
         "name":     "Carousel",
         "title":    "轮播图",
+        "icon":     "film"
+    },
+    {
+        "name":     "Gallery",
+        "title":    "轮播图 3D",
         "icon":     "film"
     },
     {

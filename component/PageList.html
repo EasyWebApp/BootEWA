@@ -18,7 +18,7 @@
         content:              counter( index );
     }
 </style>
-<script src="Data_Table.js"></script>
+<script src="PageList.js"></script>
 
 <div class="form-inline">
     <header class="row">
@@ -34,10 +34,13 @@
         </label>
         <div class="col-md-9 form-group">
             <slot name="toolbar"></slot>
+            <input type="search" class="form-control"
+                   name="keyWord" onchange="${view.search}"
+                   placeholder="press [Enter] to search" />
         </div>
     </header>
 
-    <slot><!-- Default Slot for table --></slot>
+    <slot><!-- Default Slot for ListView --></slot>
 
     <footer class="row">
         <span class="col-md-3 form-group">
