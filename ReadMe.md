@@ -5,9 +5,7 @@
 [![Learn it with Demo](https://img.shields.io/badge/Learn%20it-with%20Demo-blue.svg)](https://github.com/TechQuery/GitHub/)
 [![Join the chat at https://gitter.im/BootEWA/Lobby](https://badges.gitter.im/BootEWA/Lobby.svg)](https://gitter.im/BootEWA/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/terHRJgDULkGjswWhddcBSDJ/TechQuery/BootEWA'>
-  <img alt='Sponsor' width='750' height='68' src='https://app.codesponsor.io/embed/terHRJgDULkGjswWhddcBSDJ/TechQuery/BootEWA.svg' />
-</a>
+
 
 
 
