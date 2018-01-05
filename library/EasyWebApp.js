@@ -810,12 +810,13 @@ var view_View = (function ($, Observer, DataScope, RenderNode) {
                 $.Class.call(this, View, ['render']),  $_View,  true
             );
 
+        _This_.setPrivate('base',  base || View.baseOf( _This_.$_View[0] ));
+
         return  (_This_ !== this)  ?
             _This_ :
             this.setPrivate({
                 id:          '',
                 name:        this.$_View[0].dataset.name,
-                base:        base  ||  View.baseOf( this.$_View[0] ),
                 /**
                  * 视图数据作用域
                  *
@@ -1214,13 +1215,12 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
 
             return rule;
         },
-        fixStyle:     function ($_Root, iDOM) {
+        fixStyle:     function ($_Root, iDOM, base) {
 
             if ( iDOM.classList.contains('iQuery_CSS-Rule') )  return iDOM;
 
             var rule = this.cssRule(
-                    iDOM.sheet,
-                    iDOM.sheet.href  &&  fixCSSURL.bind(null, iDOM.sheet.href)
+                    iDOM.sheet,  base && fixCSSURL.bind(null, base)
                 );
 
             iDOM = [ ];
@@ -1260,7 +1260,29 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
 
             return iDOM;
         },
+        loadCSS:      function ($_View, linkDOM, base) {
+
+            var path = pathToRoot(base, linkDOM.getAttribute('href')),
+                _this_ = this,
+                $_Style = $('<style disabled />');
+
+            $.get( path ).then(function (CSS) {
+
+                $_Style[0].textContent = CSS;
+
+                $_Style.replaceWith( _this_.fixStyle($_View, $_Style[0], path) );
+
+            },  function () {
+
+                linkDOM.href = path;
+
+                $_Style.replaceWith( linkDOM );
+            });
+
+            return $_Style[0];
+        },
         fixScript:    function (iDOM) {
+
             var iAttr = { };
 
             $.each(iDOM.attributes,  function () {
@@ -1268,9 +1290,7 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
                 iAttr[ this.nodeName ] = this.nodeValue;
             });
 
-            iDOM = $('<script />', iAttr).prop('text', iDOM.text)[0];
-
-            return iDOM;
+            return  $('<script />', iAttr).prop('text', iDOM.text)[0];
         },
         fixURL:       function (base) {
 
@@ -1281,8 +1301,7 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
 
             switch ( this.tagName.toLowerCase() ) {
                 case 'a':         ;
-                case 'area':      ;
-                case 'link':      key = 'href';
+                case 'area':      key = 'href';
                 case 'form':      key = key || 'action';
                 case 'img':       ;
                 case 'iframe':    ;
@@ -1298,24 +1317,21 @@ var view_DOMkit = (function ($, RenderNode, InnerLink) {
                         ('target' in this)  &&
                         (this.target !== '_self')  &&
                         $.isXDomain( URI )
-                    ) {
-                        this.target = '_blank';
+                    )
+                        return  this.target = '_blank';
 
-                    } else if (URI = pathToRoot(base, URI)) {
-
+                    if (URI = pathToRoot(base, URI))
                         this.setAttribute(key, URI);
 
-                        if ($_This.is(
-                            InnerLink.HTML_Link + ', ' + InnerLink.Self_Link
-                        ))
-                            new InnerLink( this );
-                    }
+                    if ($_This.is(
+                        InnerLink.HTML_Link + ', ' + InnerLink.Self_Link
+                    ))
+                        new InnerLink( this );
                 }
             }
         },
         URL_DOM:      [
-            'a', 'area', 'link', 'form',
-            'img', 'iframe', 'audio', 'video', 'script',
+            'a', 'area', 'form', 'img', 'iframe', 'audio', 'video', 'script',
             '[style]', '[data-href]'
         ].join(', ')
     };
@@ -1446,18 +1462,12 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
 
                 if ((node instanceof Node)  &&  (node !== $_View[0]))
                     switch ( type ) {
-                        case 'style':     return  DOMkit.fixStyle($_View, node);
-                        case 'link':      {
-
-                            node.onload = function () {
-
-                                $( this ).replaceWith(
-                                    DOMkit.fixStyle($_View, this)
-                                );
-                            };
-                            return;
-                        }
-                        case 'script':    return  DOMkit.fixScript( node );
+                        case 'style':
+                            return  DOMkit.fixStyle($_View, node);
+                        case 'link':
+                            return  DOMkit.loadCSS($_View, node, this.__base__);
+                        case 'script':
+                            return  DOMkit.fixScript( node );
                     }
 
                 return  this.parseNode(type, node);
@@ -1500,26 +1510,30 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
         },
         parseHTML:     function (template) {
 
-        //  Compatible with <template />
+            var fresh;
+
+            if (template = (template || '').trim()) {
+
+                if ( this.$_View[0].innerHTML.trim() )
+                    this.$_Slot = this.$_View.contents().detach();
+
+                if (fresh  =  (! this.$_View[0].innerHTML.trim()))
+                    this.$_View[0].innerHTML = template;
+            }
 
             this.$_View.children('template').replaceWith(function () {
 
                 return  $( this ).contents();
             });
 
-        //  Literal Relative URL & <slot />
+            if ( fresh ) {
 
-            if (template = (template || '').trim()) {
+                this.fixLink();
 
-                if ( this.$_View[0].innerHTML.trim() )
-                    this.$_Slot = this.$_View.contents().remove();
-
-                this.$_View[0].innerHTML = template;
+                this.parseSlot();
             }
 
-            this.fixLink();
-
-            this.parseSlot();
+            return this;
         },
         /**
          * HTML 模板解析
@@ -1534,9 +1548,7 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
          */
         parse:         function (template) {
 
-            if (! this.__parse__)  this.parseHTML( template );
-
-            return this.parseVM();
+            return  this.parseHTML( template ).parseVM();
         },
         nodeOf:        function (data, exclude, forEach) {
 
@@ -1641,7 +1653,7 @@ var view_HTMLView = (function ($, View, DOMkit, RenderNode) {
 })(jquery, view_View, view_DOMkit, view_RenderNode);
 
 
-var view_ListView = (function ($, View, HTMLView, InnerLink) {
+var view_ListView = (function ($, View, InnerLink) {
 
     /**
      * 迭代视图类（对应 JSON 数组）
@@ -1831,7 +1843,7 @@ var view_ListView = (function ($, View, HTMLView, InnerLink) {
 
     return ListView;
 
-})(jquery, view_View, view_HTMLView, InnerLink);
+})(jquery, view_View, InnerLink);
 
 
 var view_TreeView = (function ($, ListView) {
@@ -1969,7 +1981,10 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
         splice:           Array.prototype.splice,
         getCID:           function () {
 
-            return  (arguments[0] + '').replace(this.pageRoot, '').split('#')[0];
+            return  (arguments[0] + '')
+                .replace(this.pageRoot, '')
+                .replace($.filePath( document.baseURI ),  '')
+                .split('#')[0];
         },
         /**
          * 明文显示当前 SPA 内页的路由 URI
@@ -2073,7 +2088,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
                 ](
                     {index: this.length},
                     document.title = link.title,
-                    '#!'  +  self.btoa( this.getCID( link ) )
+                    this.pageRoot  +  '#!'  +  self.btoa( this.getCID( link ) )
                 );
 
                 this.emitRoute( this[ this.length++ ] = link );
@@ -2329,7 +2344,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
  *
  * @module    {function} WebApp
  *
- * @version   4.0 (2018-01-01) stable
+ * @version   4.0 (2018-01-05) stable
  *
  * @requires  jquery
  * @see       {@link http://jquery.com/ jQuery}
@@ -2472,7 +2487,7 @@ return  (function ($, WebApp, InnerLink) {
                         data:     key
                     },
                     document.title,
-                    '#!' + self.btoa(
+                    this.pageRoot + '#!' + self.btoa(
                         $.extendURL(URL[0], key)  +  (
                             URL[1]  ?  ('&data=' + URL[1])  :  ''
                         )

@@ -5,13 +5,14 @@ require(['jquery', 'EasyWebApp', 'BootStrap'],  function ($, EWA) {
 
     EWA.component(function (data) {
 
+        this.render( data );
+
     //  Get Data from Slot
 
-        var $_Slot = this.render( data ).$_View.children('dl[slot]'),
-            ID = this.__id__;
+        var ID = this.__id__;
 
         data.__head__ = $.map(
-            $_Slot.children('dt:visible'),
+            this.$_Slot.children('dt:visible'),
             function (head, index) {
 
                 return {
@@ -23,7 +24,7 @@ require(['jquery', 'EasyWebApp', 'BootStrap'],  function ($, EWA) {
         );
 
         data.__body__ = $.map(
-            $_Slot.children('dt:visible + dd'),
+            this.$_Slot.children('dt:visible + dd'),
             function (body, index) {
 
                 return {
@@ -36,7 +37,7 @@ require(['jquery', 'EasyWebApp', 'BootStrap'],  function ($, EWA) {
             }
         );
 
-        $_Slot.remove();
+        this.$_Slot.remove();
 
     //  Load active Tab, then save it into Router
 
