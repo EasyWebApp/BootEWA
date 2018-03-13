@@ -1,0 +1,93 @@
+/*
+ *     >>>  BootEWA Web component library  <<<
+ *
+ *         [Version]  v1.0 beta (2018-3-12)
+ *
+ *         [Website]  https://boot-web.tk/
+ *
+ *           (C)2017-2018  shiy007@qq.com
+ */
+
+
+@import url("https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css");
+
+
+/* ----- HTML 5  polyfill ----- */
+
+template {
+    display:    none  !important;
+}
+
+/* ----- Adaptive layout ----- */
+
+.table-row {
+    display:    table  !important;
+    padding:    0  !important;
+    width:      100%;
+    margin:     0  auto;
+}
+.table-row > *, .table-column {
+    display:           table-cell  !important;
+    float:             none  !important;
+    vertical-align:    top;
+}
+.flow-box {
+    padding:      0;
+    font-size:    0  !important;
+}
+.flow-box > *, .flow-item {
+    display:      inline-block  !important;
+    font-size:    1rem  !important;
+}
+
+/* ----- Responsive layout ----- */
+
+@media (min-width: 768px) {
+    .grid-flow {
+        .table-row
+    }
+    .grid-flow > * {
+        .table-column
+    }
+}
+@media (max-width: 767px) {
+    .grid-flow {
+        .flow-box
+    }
+    .grid-flow > * {
+        .flow-item
+    }
+}
+.table-row.center-y > *,  .table-row > *.center-y,
+.flow-box.center-y > *,  .flow-box > *.center-y,
+.grid-flow.center-y > *,  .grid-flow > *.center-y  {
+    vertical-align:    middle;
+}
+
+/* ----- Grid border ----- */
+
+.border-column > *:nth-child(n + 2) {
+    border-left:    1px  solid;
+}
+.border-column > *:only-child {
+    border-right:    1px  solid;
+}
+.border-row > *:nth-child(n + 2) {
+    border-top:    1px  solid;
+}
+.border-row > *:only-child {
+    border-bottom:    1px  solid;
+}
+
+/* ----- Utility ----- */
+
+.ellipsis {
+    overflow:         hidden;
+    white-space:      nowrap;
+    text-overflow:    ellipsis;
+}
+.round {
+    border-radius:    50%;
+    overflow:         hidden;
+    text-align:       center;
+}

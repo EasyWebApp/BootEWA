@@ -1,0 +1,29 @@
+{
+  "name": "boot-ewa",
+  "version": "1.0.0",
+  "description": "BootStrap Web Component Library based on EasyWebApp v4+",
+  "scripts": {
+    "build": "cd library/  &&  lessc BootEWA.less BootEWA.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechQuery/BootEWA.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "component",
+    "web",
+    "mvvm",
+    "easywebapp"
+  ],
+  "author": "shiy007@qq.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TechQuery/BootEWA/issues"
+  },
+  "homepage": "https://boot-web.tk/",
+  "devDependencies": {
+    "less": "^3.0.1"
+  }
+}
